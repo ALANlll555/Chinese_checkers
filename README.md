@@ -1,4 +1,4 @@
-# 跳棋 · Chinese Checkers (2nd Edition)
+# 跳棋 · Chinese Checkers (3rd Edition)
 
 六角星棋盘跳棋，支持 2/3/4/6 人对战与人机对弈。提供 6 套可切换皮肤主题、背景音乐与音效系统。
 
