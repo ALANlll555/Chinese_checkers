@@ -1,0 +1,218 @@
+/* ═══════════════════════════════════════════
+   跳棋 — 清晰高对比主题
+   ═══════════════════════════════════════════ */
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #0f0f1a;
+  --bg-card: rgba(22,22,40,0.95);
+  --text: #e8e8f0;
+  --text-dim: #9999aa;
+  --accent: #5b9cf5;
+  --border: rgba(255,255,255,0.12);
+}
+
+body {
+  background: #0d0d18;
+  color: var(--text);
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── 棋盘 ─────────────────────────────── */
+
+.board-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+#boardCanvas {
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+/* ── 面板 ─────────────────────────────── */
+
+.panel {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.neon-title {
+  font-size: 1.5em;
+  font-weight: 800;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 6px;
+  padding: 8px 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.card label {
+  display: block;
+  font-size: 0.8em;
+  color: var(--text-dim);
+  margin: 6px 0 2px;
+  letter-spacing: 0.5px;
+}
+
+.card select {
+  width: 100%;
+  padding: 8px 10px;
+  background: #1a1a2e;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 5px;
+  color: #ddd;
+  font-family: inherit;
+  font-size: 0.9em;
+  outline: none;
+}
+.card select:focus {
+  border-color: var(--accent);
+}
+
+/* ── 按钮 ─────────────────────────────── */
+
+.neon-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.neon-btn:hover {
+  background: #7ab8ff;
+}
+.neon-btn.sm {
+  font-size: 0.8em;
+  padding: 8px;
+  flex: 1;
+  background: #252540;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #ccc;
+}
+.neon-btn.sm:hover {
+  background: #333355;
+}
+.btn-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* ── 对局信息 ─────────────────────────── */
+
+.turn-info {
+  font-size: 1.15em;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.04);
+}
+.sub-text {
+  text-align: center;
+  font-size: 0.75em;
+  color: var(--text-dim);
+  margin: 4px 0 10px;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+.progress-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.progress-name {
+  font-size: 0.85em;
+  width: 32px;
+  color: #ddd;
+}
+.progress-bar-bg {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s;
+}
+
+/* ── 点评 ─────────────────────────────── */
+
+.comment-label {
+  font-size: 0.8em;
+  color: #ff9944;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.comment-text {
+  font-size: 0.85em;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+/* ── 棋谱 ─────────────────────────────── */
+
+details summary {
+  cursor: pointer;
+  font-size: 0.85em;
+  color: var(--text-dim);
+  padding: 4px 0;
+}
+.replay-list {
+  font-size: 0.78em;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+.replay-item {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  color: #aaa;
+}
+.replay-item:hover {
+  color: #fff;
+}
+

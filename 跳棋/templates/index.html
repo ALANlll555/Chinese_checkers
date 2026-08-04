@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跳棋 · NEON</title>
+<link rel="stylesheet" href="/static/css/style.css?v=2">
+</head>
+<body>
+
+<div class="container">
+  <!-- 棋盘区域 -->
+  <div class="board-wrapper">
+    <canvas id="boardCanvas"></canvas>
+    <div class="board-glow"></div>
+  </div>
+
+  <!-- 右侧控制面板 -->
+  <div class="panel">
+    <h1 class="neon-title">⚡ 跳 棋</h1>
+
+    <!-- 新游戏设置 -->
+    <div class="card" id="setupCard">
+      <label>模式</label>
+      <select id="modeSelect">
+        <option value="pvp">人人对战</option>
+        <option value="pve">人机对战</option>
+      </select>
+
+      <label>玩家人数</label>
+      <select id="playerCount">
+        <option value="2" selected>2 人</option>
+        <option value="3">3 人</option>
+        <option value="4">4 人</option>
+        <option value="6">6 人</option>
+      </select>
+
+      <label>AI 难度</label>
+      <select id="diffSelect">
+        <option value="1">★ 随机</option>
+        <option value="2" selected>★★ 贪心</option>
+        <option value="3">★★★ Minimax</option>
+      </select>
+
+      <label>先手</label>
+      <select id="firstSelect">
+        <option value="human" selected>🙋 我先走</option>
+        <option value="ai">🤖 AI 先走</option>
+      </select>
+
+      <label>🤖 DeepSeek Key <span style="font-weight:400;color:#888;">(可选)</span></label>
+      <input id="apiKeyInput" type="password" placeholder="sk-... 启用AI点评" style="width:100%;padding:7px 10px;background:#1a1a2e;border:1px solid rgba(255,255,255,0.15);border-radius:5px;color:#ddd;font-family:inherit;font-size:0.8em;outline:none;">
+
+      <button class="neon-btn" onclick="newGame()">🎮 开始新游戏</button>
+    </div>
+
+    <!-- 对局信息 -->
+    <div class="card" id="infoCard" style="display:none">
+      <div id="turnInfo" class="turn-info"></div>
+      <div id="moveCount" class="sub-text"></div>
+
+      <div id="progressBars"></div>
+
+      <div class="btn-row">
+        <button class="neon-btn sm" onclick="undoMove()">↩ 悔棋</button>
+        <button class="neon-btn sm" onclick="aiHint()">💡 提示</button>
+      </div>
+      <div class="btn-row">
+        <button class="neon-btn sm" onclick="saveReplay()">💾 保存</button>
+        <button class="neon-btn sm" onclick="backToSetup()">🔄 新游戏</button>
+      </div>
+    </div>
+
+    <!-- LLM 点评 -->
+    <div class="card" id="commentCard" style="display:none">
+      <div class="comment-label">🤖 AI 点评</div>
+      <div id="commentText" class="comment-text"></div>
+    </div>
+
+    <!-- 棋谱列表 -->
+    <div class="card">
+      <details>
+        <summary>📂 棋谱回放</summary>
+        <div id="replayList" class="replay-list"></div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/game.js?v=2"></script>
+</body>
+</html>
