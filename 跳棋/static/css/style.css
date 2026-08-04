@@ -1,0 +1,971 @@
+/* ═══════════════════════════════════════════════════════════
+   跳棋 — 多主题 CSS 变量体系
+   6 套主题：iOS 浅/深 · 极简 浅/深 · 卡通 浅/深
+   ═══════════════════════════════════════════════════════════ */
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+/* ═══════════════════════════════════════════════════════════
+   DEFAULT THEME — 极简·深色 (minimal-dark)
+   ═══════════════════════════════════════════════════════════ */
+
+:root, [data-theme="minimal-dark"] {
+  /* ── 背景 ── */
+  --bg-body: #111111;
+  --bg-card: #1a1a1a;
+  --bg-canvas: #1a1a1a;
+  --bg-input: #1e1e1e;
+  --bg-modal: #1a1a1a;
+  --bg-modal-overlay: rgba(0,0,0,0.75);
+
+  /* ── 文字 ── */
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --text-dim: #666666;
+  --text-accent-label: #ff9944;
+
+  /* ── 边框 ── */
+  --border: #333333;
+  --border-focus: #ffffff;
+  --border-card: 1px solid #2a2a2a;
+
+  /* ── 棋盘 Canvas 色（JS 读取） ── */
+  --hole-outer: #2a2a2a;
+  --hole-inner: #1a1a1a;
+  --hole-stroke: rgba(255,255,255,0.25);
+  --board-line: rgba(255,255,255,0.15);
+  --board-hex: rgba(255,255,255,0.03);
+  --board-shadow: rgba(0,0,0,0.6);
+  --zone-alpha: 0.14;
+
+  /* ── 棋子 ── */
+  --piece-highlight: rgba(255,255,255,0.55);
+  --piece-shadow: rgba(0,0,0,0.45);
+  --piece-stroke: rgba(255,255,255,0.35);
+  --piece-grad-dark: #222222;
+  --piece-grad-alpha: 0.55;
+
+  /* ── 交互 ── */
+  --accent: #ffffff;
+  --accent-hover: #cccccc;
+  --legal-move: #2ecc71;
+  --legal-move-alpha: 0.35;
+  --selection-glow: rgba(255,255,255,0.3);
+  --danger: #e74c3c;
+  --warning: #f39c12;
+
+  /* ── 按钮 ── */
+  --btn-bg: #ffffff;
+  --btn-text: #111111;
+  --btn-hover-bg: #cccccc;
+  --btn-sm-bg: #222222;
+  --btn-sm-text: #cccccc;
+  --btn-sm-border: 1px solid #333333;
+  --btn-sm-hover-bg: #333333;
+
+  /* ── 样式参数 ── */
+  --border-radius: 4px;
+  --font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft YaHei', sans-serif;
+  --title-color: #ffffff;
+  --card-shadow: none;
+  --canvas-radius: 2px;
+
+  /* ── 玩家颜色 ── */
+  --player-0: #e74c3c;
+  --player-1: #3498db;
+  --player-2: #2ecc71;
+  --player-3: #f1c40f;
+  --player-4: #9b59b6;
+  --player-5: #e67e22;
+
+  /* ── 进度条背景 ── */
+  --progress-bar-bg: rgba(255,255,255,0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME — 极简·浅色 (minimal-light)
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="minimal-light"] {
+  --bg-body: #ffffff;
+  --bg-card: #fafafa;
+  --bg-canvas: #fafafa;
+  --bg-input: #f5f5f5;
+  --bg-modal: #ffffff;
+  --bg-modal-overlay: rgba(0,0,0,0.35);
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-dim: #999999;
+  --text-accent-label: #e67e22;
+
+  --border: #e0e0e0;
+  --border-focus: #1a1a1a;
+  --border-card: 1px solid #e8e8e8;
+
+  --hole-outer: #e8e8e8;
+  --hole-inner: #f0f0f0;
+  --hole-stroke: rgba(0,0,0,0.2);
+  --board-line: rgba(0,0,0,0.12);
+  --board-hex: rgba(0,0,0,0.02);
+  --board-shadow: rgba(0,0,0,0.08);
+  --zone-alpha: 0.1;
+
+  --piece-highlight: rgba(255,255,255,0.7);
+  --piece-shadow: rgba(0,0,0,0.15);
+  --piece-stroke: rgba(0,0,0,0.25);
+  --piece-grad-dark: #333333;
+  --piece-grad-alpha: 0.6;
+
+  --accent: #1a1a1a;
+  --accent-hover: #555555;
+  --legal-move: #27ae60;
+  --legal-move-alpha: 0.3;
+  --selection-glow: rgba(0,0,0,0.15);
+  --danger: #c0392b;
+  --warning: #e67e22;
+
+  --btn-bg: #1a1a1a;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #555555;
+  --btn-sm-bg: #f0f0f0;
+  --btn-sm-text: #333333;
+  --btn-sm-border: 1px solid #ddd;
+  --btn-sm-hover-bg: #e0e0e0;
+
+  --border-radius: 4px;
+  --font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft YaHei', sans-serif;
+  --title-color: #1a1a1a;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --canvas-radius: 2px;
+
+  --progress-bar-bg: rgba(0,0,0,0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME — iOS·深色 (ios-dark)
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="ios-dark"] {
+  --bg-body: #000000;
+  --bg-card: rgba(28,28,30,0.82);
+  --bg-canvas: #1c1c1e;
+  --bg-input: rgba(44,44,46,0.8);
+  --bg-modal: rgba(28,28,30,0.95);
+  --bg-modal-overlay: rgba(0,0,0,0.55);
+
+  --text-primary: #f5f5f7;
+  --text-secondary: #98989d;
+  --text-dim: #636366;
+  --text-accent-label: #ff9f0a;
+
+  --border: rgba(255,255,255,0.12);
+  --border-focus: #0a84ff;
+  --border-card: 1px solid rgba(255,255,255,0.1);
+
+  --hole-outer: #2c2c2e;
+  --hole-inner: #1c1c1e;
+  --hole-stroke: rgba(255,255,255,0.2);
+  --board-line: rgba(255,255,255,0.12);
+  --board-hex: rgba(255,255,255,0.025);
+  --board-shadow: rgba(0,0,0,0.5);
+  --zone-alpha: 0.12;
+
+  --piece-highlight: rgba(255,255,255,0.5);
+  --piece-shadow: rgba(0,0,0,0.5);
+  --piece-stroke: rgba(255,255,255,0.3);
+  --piece-grad-dark: #1a1a1a;
+  --piece-grad-alpha: 0.5;
+
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --legal-move: #30d158;
+  --legal-move-alpha: 0.4;
+  --selection-glow: rgba(10,132,255,0.35);
+  --danger: #ff453a;
+  --warning: #ff9f0a;
+
+  --btn-bg: #0a84ff;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #409cff;
+  --btn-sm-bg: rgba(255,255,255,0.08);
+  --btn-sm-text: #f5f5f7;
+  --btn-sm-border: 1px solid rgba(255,255,255,0.12);
+  --btn-sm-hover-bg: rgba(255,255,255,0.14);
+
+  --border-radius: 14px;
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --title-color: #f5f5f7;
+  --card-shadow: 0 2px 16px rgba(0,0,0,0.35);
+  --canvas-radius: 14px;
+
+  --player-0: #ff453a;
+  --player-1: #0a84ff;
+  --player-2: #30d158;
+  --player-3: #ffd60a;
+  --player-4: #bf5af2;
+  --player-5: #ff9f0a;
+
+  --progress-bar-bg: rgba(255,255,255,0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME — iOS·浅色 (ios-light)
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="ios-light"] {
+  --bg-body: #f2f2f7;
+  --bg-card: rgba(255,255,255,0.75);
+  --bg-canvas: #ffffff;
+  --bg-input: #f2f2f7;
+  --bg-modal: rgba(255,255,255,0.92);
+  --bg-modal-overlay: rgba(0,0,0,0.25);
+
+  --text-primary: #1c1c1e;
+  --text-secondary: #3a3a3c;
+  --text-dim: #8e8e93;
+  --text-accent-label: #ff9f0a;
+
+  --border: rgba(0,0,0,0.1);
+  --border-focus: #007aff;
+  --border-card: 1px solid rgba(0,0,0,0.08);
+
+  --hole-outer: #e5e5ea;
+  --hole-inner: #f2f2f7;
+  --hole-stroke: rgba(0,0,0,0.15);
+  --board-line: rgba(0,0,0,0.08);
+  --board-hex: rgba(0,0,0,0.015);
+  --board-shadow: rgba(0,0,0,0.06);
+  --zone-alpha: 0.1;
+
+  --piece-highlight: rgba(255,255,255,0.7);
+  --piece-shadow: rgba(0,0,0,0.12);
+  --piece-stroke: rgba(0,0,0,0.2);
+  --piece-grad-dark: #333333;
+  --piece-grad-alpha: 0.55;
+
+  --accent: #007aff;
+  --accent-hover: #409cff;
+  --legal-move: #34c759;
+  --legal-move-alpha: 0.35;
+  --selection-glow: rgba(0,122,255,0.3);
+  --danger: #ff3b30;
+  --warning: #ff9500;
+
+  --btn-bg: #007aff;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #409cff;
+  --btn-sm-bg: #f2f2f7;
+  --btn-sm-text: #007aff;
+  --btn-sm-border: 1px solid rgba(0,0,0,0.08);
+  --btn-sm-hover-bg: #e5e5ea;
+
+  --border-radius: 14px;
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --title-color: #1c1c1e;
+  --card-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  --canvas-radius: 14px;
+
+  --player-0: #ff3b30;
+  --player-1: #007aff;
+  --player-2: #34c759;
+  --player-3: #ffcc00;
+  --player-4: #af52de;
+  --player-5: #ff9500;
+
+  --progress-bar-bg: rgba(0,0,0,0.05);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME — 卡通·深色 (cartoon-dark)
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="cartoon-dark"] {
+  --bg-body: #1a0a2e;
+  --bg-card: #2d1050;
+  --bg-canvas: #1a0a2e;
+  --bg-input: #3d1a60;
+  --bg-modal: #2d1050;
+  --bg-modal-overlay: rgba(0,0,0,0.7);
+
+  --text-primary: #f0e6ff;
+  --text-secondary: #c9b0e8;
+  --text-dim: #8a6aaa;
+  --text-accent-label: #ff66ff;
+
+  --border: #6a2fa0;
+  --border-focus: #ff00ff;
+  --border-card: 3px solid #6a2fa0;
+
+  --hole-outer: #4a1a7a;
+  --hole-inner: #2d1050;
+  --hole-stroke: #8a4fcc;
+  --board-line: rgba(138,79,204,0.4);
+  --board-hex: rgba(255,0,255,0.03);
+  --board-shadow: 0 0 20px rgba(138,79,204,0.3);
+  --zone-alpha: 0.18;
+
+  --piece-highlight: rgba(255,255,255,0.6);
+  --piece-shadow: rgba(0,0,0,0.6);
+  --piece-stroke: rgba(255,255,255,0.5);
+  --piece-grad-dark: #1a0033;
+  --piece-grad-alpha: 0.6;
+
+  --accent: #ff00ff;
+  --accent-hover: #ff66ff;
+  --legal-move: #00ffff;
+  --legal-move-alpha: 0.45;
+  --selection-glow: rgba(255,0,255,0.5);
+  --danger: #ff3366;
+  --warning: #ffcc00;
+
+  --btn-bg: #ff00ff;
+  --btn-text: #1a0a2e;
+  --btn-hover-bg: #ff66ff;
+  --btn-sm-bg: #3d1a60;
+  --btn-sm-text: #f0e6ff;
+  --btn-sm-border: 3px solid #6a2fa0;
+  --btn-sm-hover-bg: #4a1a7a;
+
+  --border-radius: 18px;
+  --font-family: 'Comic Sans MS', 'Chalkboard SE', 'YouYuan', '幼圆', 'Microsoft YaHei', cursive, sans-serif;
+  --title-color: #ff00ff;
+  --card-shadow: 5px 5px 0px rgba(0,0,0,0.4);
+  --canvas-radius: 18px;
+
+  --player-0: #ff3366;
+  --player-1: #33ccff;
+  --player-2: #33ff66;
+  --player-3: #ffdd00;
+  --player-4: #cc66ff;
+  --player-5: #ff8800;
+
+  --progress-bar-bg: rgba(255,0,255,0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME — 卡通·浅色 (cartoon-light)
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="cartoon-light"] {
+  --bg-body: #fff8e7;
+  --bg-card: #ffffff;
+  --bg-canvas: #fff3d6;
+  --bg-input: #fff8e7;
+  --bg-modal: #ffffff;
+  --bg-modal-overlay: rgba(0,0,0,0.3);
+
+  --text-primary: #2d1b00;
+  --text-secondary: #5c3d1a;
+  --text-dim: #997a4d;
+  --text-accent-label: #e74c3c;
+
+  --border: #2d1b00;
+  --border-focus: #ff6b35;
+  --border-card: 3px solid #2d1b00;
+
+  --hole-outer: #f5deb3;
+  --hole-inner: #fff3d6;
+  --hole-stroke: #2d1b00;
+  --board-line: rgba(45,27,0,0.25);
+  --board-hex: rgba(45,27,0,0.03);
+  --board-shadow: 6px 6px 0px rgba(45,27,0,0.15);
+  --zone-alpha: 0.15;
+
+  --piece-highlight: rgba(255,255,255,0.7);
+  --piece-shadow: rgba(45,27,0,0.25);
+  --piece-stroke: rgba(45,27,0,0.5);
+  --piece-grad-dark: #2d1b00;
+  --piece-grad-alpha: 0.55;
+
+  --accent: #ff6b35;
+  --accent-hover: #ff8c5a;
+  --legal-move: #27ae60;
+  --legal-move-alpha: 0.4;
+  --selection-glow: rgba(255,107,53,0.4);
+  --danger: #e74c3c;
+  --warning: #f39c12;
+
+  --btn-bg: #ff6b35;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #ff8c5a;
+  --btn-sm-bg: #fff3d6;
+  --btn-sm-text: #2d1b00;
+  --btn-sm-border: 3px solid #2d1b00;
+  --btn-sm-hover-bg: #ffe4b0;
+
+  --border-radius: 18px;
+  --font-family: 'Comic Sans MS', 'Chalkboard SE', 'YouYuan', '幼圆', 'Microsoft YaHei', cursive, sans-serif;
+  --title-color: #2d1b00;
+  --card-shadow: 5px 5px 0px rgba(45,27,0,0.2);
+  --canvas-radius: 18px;
+
+  --player-0: #e74c3c;
+  --player-1: #2980b9;
+  --player-2: #27ae60;
+  --player-3: #f1c40f;
+  --player-4: #8e44ad;
+  --player-5: #e67e22;
+
+  --progress-bar-bg: rgba(45,27,0,0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES（使用 CSS 变量）
+   ═══════════════════════════════════════════════════════════ */
+
+body {
+  background: var(--bg-body);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  min-height: 100vh;
+  transition: background 0.4s, color 0.4s;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── 棋盘 ─────────────────────────────── */
+
+.board-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--canvas-radius);
+  transition: border-radius 0.4s;
+}
+
+#boardCanvas {
+  display: block;
+  border-radius: var(--canvas-radius);
+  box-shadow: var(--board-shadow);
+  transition: border-radius 0.4s, box-shadow 0.4s;
+}
+
+/* ── 面板 ─────────────────────────────── */
+
+.panel {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.neon-title {
+  font-size: 1.5em;
+  font-weight: 800;
+  text-align: center;
+  color: var(--title-color);
+  letter-spacing: 6px;
+  padding: 8px 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 4px;
+  transition: color 0.4s, border-color 0.4s;
+}
+
+/* ── 主题选择器 ───────────────────────── */
+
+.theme-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.theme-picker-label {
+  font-size: 0.75em;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.theme-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.theme-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  flex-shrink: 0;
+  background: var(--dot-bg, #333);
+}
+
+.theme-dot:hover {
+  transform: scale(1.2);
+}
+
+.theme-dot.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.theme-dot::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.theme-dot:hover::after {
+  opacity: 1;
+}
+
+/* 主题色块颜色 */
+.theme-dot.minimal-dark  { --dot-bg: #111; border: 1px solid #444; }
+.theme-dot.minimal-light { --dot-bg: #fff; border: 1px solid #ccc; }
+.theme-dot.ios-dark      { --dot-bg: #000; border: 1px solid #555; }
+.theme-dot.ios-light     { --dot-bg: #f2f2f7; border: 1px solid #ccc; }
+.theme-dot.cartoon-dark  { --dot-bg: #1a0a2e; border: 1px solid #6a2fa0; }
+.theme-dot.cartoon-light { --dot-bg: #fff8e7; border: 1px solid #2d1b00; }
+
+/* ── 音频控件 ─────────────────────────── */
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.audio-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1em;
+  padding: 5px 8px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  line-height: 1;
+}
+
+.audio-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--text-dim);
+}
+
+.audio-btn.on {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.audio-volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.audio-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+/* ── 卡片 ─────────────────────────────── */
+
+.card {
+  background: var(--bg-card);
+  border: var(--border-card);
+  border-radius: var(--border-radius);
+  padding: 14px;
+  box-shadow: var(--card-shadow);
+  transition: background 0.4s, border 0.4s, border-radius 0.4s, box-shadow 0.4s;
+}
+
+.card label {
+  display: block;
+  font-size: 0.8em;
+  color: var(--text-dim);
+  margin: 6px 0 2px;
+  letter-spacing: 0.5px;
+}
+
+.card select, .card input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9em;
+  outline: none;
+  transition: background 0.4s, border-color 0.4s, color 0.4s, border-radius 0.4s;
+}
+
+.card select:focus, .card input:focus {
+  border-color: var(--border-focus);
+}
+
+/* ── 按钮 ─────────────────────────────── */
+
+.neon-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: var(--btn-bg);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--btn-text);
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-radius 0.4s;
+}
+
+.neon-btn:hover {
+  background: var(--btn-hover-bg);
+}
+
+.neon-btn.sm {
+  font-size: 0.8em;
+  padding: 8px;
+  flex: 1;
+  background: var(--btn-sm-bg);
+  border: var(--btn-sm-border);
+  color: var(--btn-sm-text);
+  transition: background 0.2s, color 0.2s, border 0.4s, border-radius 0.4s;
+}
+
+.neon-btn.sm:hover {
+  background: var(--btn-sm-hover-bg);
+}
+
+.btn-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* ── 对局信息 ─────────────────────────── */
+
+.turn-info {
+  font-size: 1.15em;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px;
+  border-radius: var(--border-radius);
+  background: rgba(128,128,128,0.06);
+  transition: color 0.3s, border-radius 0.4s;
+}
+
+.sub-text {
+  text-align: center;
+  font-size: 0.75em;
+  color: var(--text-dim);
+  margin: 4px 0 10px;
+  transition: color 0.4s;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.progress-name {
+  font-size: 0.85em;
+  width: 32px;
+  color: var(--text-primary);
+  transition: color 0.4s;
+}
+
+.progress-bar-bg {
+  flex: 1;
+  height: 6px;
+  background: var(--progress-bar-bg);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s;
+}
+
+/* ── 点评 ─────────────────────────────── */
+
+.comment-label {
+  font-size: 0.8em;
+  color: var(--text-accent-label);
+  margin-bottom: 6px;
+  font-weight: 600;
+  transition: color 0.4s;
+}
+
+.comment-text {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  transition: color 0.4s;
+}
+
+/* ── 棋谱 ─────────────────────────────── */
+
+details summary {
+  cursor: pointer;
+  font-size: 0.85em;
+  color: var(--text-dim);
+  padding: 4px 0;
+  transition: color 0.4s;
+}
+
+.replay-list {
+  font-size: 0.78em;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+
+.replay-item {
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color 0.2s, border-color 0.4s;
+}
+
+.replay-item:hover {
+  color: var(--text-primary);
+}
+
+/* ── 弹窗 ─────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-modal-overlay);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-card {
+  background: var(--bg-modal);
+  border: var(--border-card);
+  border-radius: var(--border-radius);
+  padding: 28px 24px;
+  width: 300px;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  transition: background 0.4s, border 0.4s, border-radius 0.4s, box-shadow 0.4s;
+}
+
+.modal-card h3 {
+  font-size: 1.15em;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  transition: color 0.4s;
+}
+
+.modal-card .modal-sub {
+  color: var(--text-dim);
+  font-size: 0.82em;
+  margin-bottom: 18px;
+  transition: color 0.4s;
+}
+
+.modal-card input {
+  width: 100%;
+  padding: 9px 12px;
+  margin: 10px 0;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9em;
+  outline: none;
+  transition: background 0.4s, border-color 0.4s, color 0.4s, border-radius 0.4s;
+}
+
+.modal-card input:focus {
+  border-color: var(--border-focus);
+}
+
+.modal-card .error-text {
+  color: var(--danger);
+  font-size: 0.78em;
+  display: none;
+  margin-bottom: 6px;
+}
+
+.modal-card button {
+  margin: 6px 0;
+}
+
+/* ── 棋谱操作 ─────────────────────────── */
+
+.replay-actions {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.replay-actions button {
+  background: rgba(128,128,128,0.08);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.72em;
+  padding: 2px 5px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.replay-actions button:hover {
+  color: var(--text-primary);
+  background: rgba(128,128,128,0.15);
+}
+
+.replay-actions button.danger:hover {
+  color: var(--danger);
+}
+
+.archive-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ── 辅助样式 ─────────────────────────── */
+
+.btn-sub {
+  opacity: 0.55;
+  font-size: 0.8em;
+}
+
+.modal-card .btn-secondary {
+  background: var(--btn-sm-bg);
+  border: var(--btn-sm-border);
+  color: var(--btn-sm-text);
+  margin-top: 8px;
+}
+
+.modal-card .btn-secondary:hover {
+  background: var(--btn-sm-hover-bg);
+}
+
+.label-optional {
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.replay-step-label {
+  color: var(--text-dim);
+  font-size: 0.85em;
+}
+
+.theme-picker-card {
+  padding: 10px 14px;
+}
+
+/* ── BGM 风格选择器 ───────────────────── */
+
+.bgm-style-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.bgm-style-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg-input);
+  cursor: pointer;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.bgm-style-btn:hover {
+  transform: scale(1.15);
+  border-color: var(--text-dim);
+}
+
+.bgm-style-btn.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  transform: scale(1.08);
+}
+
+/* ── iOS 毛玻璃特效 ───────────────────── */
+
+[data-theme="ios-light"] .card,
+[data-theme="ios-light"] .modal-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+[data-theme="ios-dark"] .card,
+[data-theme="ios-dark"] .modal-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── 卡通主题装饰 ─────────────────────── */
+
+[data-theme="cartoon-dark"] .neon-title,
+[data-theme="cartoon-light"] .neon-title {
+  text-shadow: 2px 2px 0px var(--border);
+  letter-spacing: 8px;
+}
+
+[data-theme="cartoon-dark"] .neon-btn,
+[data-theme="cartoon-light"] .neon-btn {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
