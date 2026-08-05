@@ -1,0 +1,4 @@
+flask>=2.3,<4
+requests>=2.28,<3
+mcp>=1.27,<2
+uvicorn>=0.30,<1

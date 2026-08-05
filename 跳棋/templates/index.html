@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跳棋 · NEON</title>
+<link rel="stylesheet" href="/static/css/style.css?v=17">
+</head>
+<body>
+
+<!-- ── 开局弹窗 ──────────────────────────── -->
+<div class="modal-overlay" id="startModal" style="display:none">
+  <div class="modal-card">
+    <h3>🎮 开始新游戏</h3>
+    <p class="modal-sub">选择游戏模式</p>
+    <button class="neon-btn" onclick="startWithArchive()">📁 新建存档
+      <br><span class="btn-sub">支持棋谱回放</span></button>
+    <button class="neon-btn btn-secondary" onclick="startQuickGame()">⚡ 快速开始
+      <br><span class="btn-sub">无回放功能</span></button>
+    <button class="neon-btn sm" onclick="closeStartModal()">✕ 取消</button>
+  </div>
+</div>
+
+<!-- ── 存档命名弹窗 ───────────────────────── -->
+<div class="modal-overlay" id="archiveNameModal" style="display:none">
+  <div class="modal-card">
+    <h3>📁 新建存档</h3>
+    <p class="modal-sub">给这局棋起个名字</p>
+    <input id="archiveNameInput" type="text" placeholder="例：冠军赛 · 第3局" autocomplete="off">
+    <p class="error-text" id="archiveNameError">该名称已存在，请换一个</p>
+    <button class="neon-btn" onclick="confirmArchiveStart()">✅ 确认开始</button>
+    <button class="neon-btn sm" onclick="closeArchiveNameModal()">取消</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- 左侧 AI 对话面板：与右侧面板等宽，沿用现有主题与卡片体系 -->
+  <aside class="panel chat-panel" aria-label="AI 教练">
+    <h1 class="neon-title chat-title">🧭 AI 教练</h1>
+    <div class="card chat-card">
+      <div class="chat-toolbar">
+        <span id="chatStatus" class="chat-status">等待开始游戏</span>
+        <button class="chat-clear-btn" type="button" onclick="AIChat.clear()" title="清空当前对话">清空</button>
+      </div>
+      <div class="chat-option-row" aria-label="DeepSeek 选项">
+        <label class="chat-option-toggle" title="启用 DeepSeek 思考模式，并在回复中显示 reasoning_content">
+          <input id="deepThinkToggle" type="checkbox">
+          <span>🧠 推理过程</span>
+        </label>
+        <label class="chat-option-toggle" title="允许最多使用 1M 上下文；关闭后使用标准上下文预算">
+          <input id="context1mToggle" type="checkbox">
+          <span>1M 上下文</span>
+        </label>
+      </div>
+      <div id="chatMessages" class="chat-messages" aria-live="polite">
+        <div class="chat-empty">开始游戏后，可让 DeepSeek 读取真实局面并调用计算工具。</div>
+      </div>
+      <div class="chat-quick-row">
+        <button type="button" onclick="AIChat.ask('请生成可验证的局面诊断：结论、五项证据、候选对比、风险、反事实和置信度')">诊断</button>
+        <button type="button" onclick="AIChat.ask('推荐我下一步怎么走，并用五项特征变化解释每个候选的收益与代价')">推荐</button>
+        <button type="button" onclick="AIChat.ask('复盘最近一步：比较走棋前后五项特征、路径、收益和风险')">复盘</button>
+      </div>
+      <div class="chat-compose">
+        <textarea id="chatInput" rows="3" maxlength="3000" placeholder="请先开始一局游戏" disabled></textarea>
+        <button id="chatSendBtn" class="neon-btn chat-send" type="button" onclick="AIChat.send()" disabled>发送</button>
+      </div>
+      <div class="chat-note">Enter 发送 · Shift+Enter 换行 · 坐标可点击定位</div>
+    </div>
+  </aside>
+
+  <!-- 棋盘区域：坐标与 AI 标记均为只读覆盖层，不参与落子和状态计算 -->
+  <div class="board-wrapper">
+    <div class="board-overlay-toolbar" aria-label="棋盘辅助显示">
+      <div class="board-tool-group">
+        <button id="coordinateToggleBtn" class="board-tool-btn" type="button"
+          aria-pressed="false" onclick="toggleCoordinateOverlay()"
+          title="显示或隐藏每个孔位的（行,列）坐标">⌖ 坐标</button>
+        <button id="coordinateModeBtn" class="board-tool-btn subtle" type="button"
+          onclick="toggleCoordinateDetailMode()" hidden
+          title="切换空位优先或全部孔位坐标">空位优先</button>
+        <span id="coordinateReadout" class="board-coordinate-readout">格式（行,列）</span>
+      </div>
+      <div class="board-tool-group board-tool-group-end">
+        <span id="aiOverlayStatus" class="board-ai-status" hidden>AI 建议已标注</span>
+        <button id="clearAiOverlayBtn" class="board-tool-btn subtle" type="button"
+          onclick="clearAIAnalysisOverlay()" hidden>清除标记</button>
+      </div>
+    </div>
+    <div id="aiCandidateDock" class="ai-candidate-dock" hidden
+      aria-label="AI 候选目标"></div>
+    <canvas id="boardCanvas" aria-label="跳棋棋盘"></canvas>
+    <div id="aiCandidateDetail" class="ai-candidate-detail" hidden></div>
+    <div id="coordinateLegend" class="coordinate-legend" hidden>
+      （行,列）· 空位优先避免遮挡棋子 · 可切换全部孔位 · 行 0 在下方
+    </div>
+    <div id="aiOverlayLegend" class="ai-overlay-legend" hidden>
+      <span class="overlay-swatch primary"></span>推荐
+      <span class="overlay-swatch candidate"></span>候选/分析
+      <span class="overlay-readonly">仅显示，不会自动落子</span>
+    </div>
+  </div>
+
+  <!-- 右侧控制面板 -->
+  <div class="panel">
+    <h1 class="neon-title">⚡ 跳 棋</h1>
+
+    <!-- 主题选择器 -->
+    <div class="card theme-picker-card">
+      <div class="theme-picker">
+        <div class="theme-picker-label">🎨 主题皮肤</div>
+        <div class="theme-row">
+          <button class="theme-dot minimal-dark active" data-theme="minimal-dark"
+            onclick="applyTheme('minimal-dark')" data-label="极简·暗" title="极简·深色"></button>
+          <button class="theme-dot minimal-light" data-theme="minimal-light"
+            onclick="applyTheme('minimal-light')" data-label="极简·亮" title="极简·浅色"></button>
+          <button class="theme-dot ios-dark" data-theme="ios-dark"
+            onclick="applyTheme('ios-dark')" data-label="iOS·暗" title="iOS·深色"></button>
+          <button class="theme-dot ios-light" data-theme="ios-light"
+            onclick="applyTheme('ios-light')" data-label="iOS·亮" title="iOS·浅色"></button>
+          <button class="theme-dot cartoon-dark" data-theme="cartoon-dark"
+            onclick="applyTheme('cartoon-dark')" data-label="卡通·暗" title="卡通·深色"></button>
+          <button class="theme-dot cartoon-light" data-theme="cartoon-light"
+            onclick="applyTheme('cartoon-light')" data-label="卡通·亮" title="卡通·浅色"></button>
+        </div>
+      </div>
+
+      <!-- 音频控件 -->
+      <div class="audio-controls">
+        <button class="audio-btn" id="bgmToggle" onclick="toggleBGM()" title="背景音乐">🔇</button>
+        <input type="range" class="audio-volume" id="bgmVolume" min="0" max="1" step="0.05" value="0.3"
+          oninput="setBGMVolume_global(this.value)" title="音量">
+      </div>
+
+      <!-- BGM 风格选择 -->
+      <div class="bgm-style-row">
+        <button class="bgm-style-btn active" data-style="piano" onclick="setBgmStyle('piano')" title="钢琴">🎹</button>
+        <button class="bgm-style-btn" data-style="ambient" onclick="setBgmStyle('ambient')" title="环境音">🏖️</button>
+        <button class="bgm-style-btn" data-style="8bit" onclick="setBgmStyle('8bit')" title="8-bit">🎮</button>
+        <button class="bgm-style-btn" data-style="lofi" onclick="setBgmStyle('lofi')" title="Lo-fi">🎷</button>
+      </div>
+    </div>
+
+    <!-- 新游戏设置 -->
+    <div class="card" id="setupCard">
+      <label>模式</label>
+      <select id="modeSelect">
+        <option value="pvp">人人对战</option>
+        <option value="pve">人机对战</option>
+      </select>
+
+      <label>玩家人数</label>
+      <select id="playerCount">
+        <option value="2" selected>2 人</option>
+        <option value="3">3 人</option>
+        <option value="4">4 人</option>
+        <option value="6">6 人</option>
+      </select>
+
+      <label>AI 难度</label>
+      <select id="diffSelect">
+        <option value="1">★ 随机</option>
+        <option value="2" selected>★★ 贪心</option>
+        <option value="3">★★★ Minimax</option>
+      </select>
+
+      <label>先手</label>
+      <select id="firstSelect">
+        <option value="human" selected>🙋 我先走</option>
+        <option value="ai">🤖 AI 先走</option>
+      </select>
+
+      <details class="deepseek-setup" open>
+        <summary>🤖 DeepSeek 设置 <span class="label-optional">(可选)</span></summary>
+
+        <label>API Key</label>
+        <input id="apiKeyInput" type="password"
+          placeholder="sk-... 仅保存在当前服务内存">
+
+        <label>Base URL</label>
+        <input id="deepseekBaseUrlInput" type="text"
+          value="https://api.deepseek.com"
+          placeholder="https://api.deepseek.com">
+
+        <label>模型</label>
+        <input id="deepseekModelInput" type="text"
+          value="deepseek-v4-flash"
+          placeholder="deepseek-v4-flash">
+
+        <div class="deepseek-option-grid">
+          <label class="setup-check">
+            <input id="deepseekThinkingInput" type="checkbox" checked>
+            <span>思考模式</span>
+          </label>
+          <label class="setup-check">
+            <input id="deepseekShowReasoningInput" type="checkbox" checked>
+            <span>显示推理过程</span>
+          </label>
+          <label class="setup-check">
+            <input id="deepseekContext1mInput" type="checkbox" checked>
+            <span>1M 上下文</span>
+          </label>
+          <label class="setup-check">
+            <input id="deepseekStrictToolsInput" type="checkbox">
+            <span>Strict Tools</span>
+          </label>
+        </div>
+
+        <div class="deepseek-inline-fields">
+          <label>推理强度
+            <select id="deepseekReasoningEffortSelect">
+              <option value="low">low</option>
+              <option value="high" selected>high</option>
+              <option value="xhigh">xhigh</option>
+              <option value="max">max</option>
+            </select>
+          </label>
+          <label>最大输出
+            <input id="deepseekMaxTokensInput" type="number"
+              min="256" max="32768" step="256" value="4096">
+          </label>
+        </div>
+
+        <div class="deepseek-test-row">
+          <button id="deepseekTestBtn" class="neon-btn sm" type="button"
+            onclick="testDeepSeekSettings()">测试配置</button>
+          <span id="deepseekTestStatus" class="deepseek-test-status">尚未测试</span>
+        </div>
+      </details>
+
+      <button class="neon-btn" onclick="newGame()">🎮 开始新游戏</button>
+    </div>
+
+    <!-- 对局信息 -->
+    <div class="card" id="infoCard" style="display:none">
+      <div id="turnInfo" class="turn-info"></div>
+      <div id="moveCount" class="sub-text"></div>
+
+      <div id="progressBars"></div>
+
+      <div id="replayControls" style="display:none;margin:10px 0;">
+        <span id="replayStepLabel" class="replay-step-label"></span>
+        <div class="btn-row">
+          <button class="neon-btn sm" onclick="replayPrev()">◀ 上一步</button>
+          <button class="neon-btn sm" onclick="replayNext()">下一步 ▶</button>
+          <button class="neon-btn sm" onclick="exitReplay()">✕ 退出回放</button>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="neon-btn sm" onclick="undoMove()">↩ 悔棋</button>
+        <button class="neon-btn sm" onclick="aiHint()">💡 提示</button>
+        <button class="neon-btn sm" id="btnInGameReplay" onclick="startInGameReplay()" style="display:none">🎬 回放</button>
+      </div>
+      <div class="btn-row">
+        <button class="neon-btn sm" onclick="backToSetup()">🔄 新游戏</button>
+      </div>
+    </div>
+
+    <!-- LLM 点评 -->
+    <div class="card" id="commentCard" style="display:none">
+      <div class="comment-label">🤖 AI 点评</div>
+      <div id="commentText" class="comment-text"></div>
+    </div>
+
+    <!-- 棋谱列表 -->
+    <div class="card">
+      <details>
+        <summary>📂 棋谱回放</summary>
+        <div id="replayList" class="replay-list"></div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/audio.js?v=4"></script>
+<script src="/static/js/overlay_guard.js?v=1"></script>
+<script src="/static/js/game.js?v=12"></script>
+<script src="/static/js/chat_format.js?v=10"></script>
+<script src="/static/js/chat.js?v=17"></script>
+</body>
+</html>

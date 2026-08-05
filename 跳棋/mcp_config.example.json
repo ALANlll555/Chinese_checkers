@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chinese-checkers": {
+      "command": "python",
+      "args": ["/absolute/path/to/跳棋/mcp_server.py", "--transport", "stdio"],
+      "env": {
+        "CHINESE_CHECKERS_DB": "/absolute/path/to/跳棋/data/chinese_checkers.sqlite3"
+      }
+    }
+  }
+}
